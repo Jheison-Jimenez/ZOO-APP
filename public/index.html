@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zoology App</title>
+</head>
+<body>
+    <h1>Zoology App</h1>
+    <h2>Add Product</h2>
+    <form id="addProductForm">
+        <input type="text" id="productId" placeholder="Product ID" required>
+        <input type="text" id="productName" placeholder="Product Name" required>
+        <button type="submit">Add Product</button>
+    </form>
+
+    <h2>Get Product</h2>
+    <form id="getProductForm">
+        <input type="text" id="searchProductId" placeholder="Product ID" required>
+        <button type="submit">Get Product</button>
+    </form>
+
+    <div id="productDetails"></div>
+
+    <script>
+        document.getElementById('addProductForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const productId = document.getElementById('productId').value;
+            const productName = document.getElementById('productName').value;
+
+            fetch('/add-product', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ productId, productName })
+            }).then(response => response.json())
+              .then(data => {
+                  alert(data.message);
+              }).catch(error => console.error('Error:', error));
+        });
+
+        document.getElementById('getProductForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const productId = document.getElementById('searchProductId').value;
+
+            fetch(`/get-product/${productId}`)
+                .then(response => response.json())
+                .then(data => {
+                    const productDetails = document.getElementById('productDetails');
+                    productDetails.innerHTML = `<p>Product ID: ${data.productId}</p><p>Product Name: ${data.productName}</p>`;
+                }).catch(error => console.error('Error:', error));
+        });
+    </script>
+</body>
+</html>

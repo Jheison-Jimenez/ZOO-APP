@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: zoologyapp
+    env: node
+    plan: free
+    buildCommand: 'npm install'
+    startCommand: 'npm start'
+    envVars:
+      - key: AWS_ACCESS_KEY_ID
+        value: YOUR_ACCESS_KEY
+      - key: AWS_SECRET_ACCESS_KEY
+        value: YOUR_SECRET_KEY
+      - key: AWS_REGION
+        value: YOUR_REGION
+      - key: BUCKET_NAME
+        value: zoologyapp
